@@ -3,14 +3,16 @@ import '../models/Burger.dart';
 import '../screens/detail_screen.dart';
 
 class BurgerCard extends StatelessWidget {
-  final Burger burger; // 수정: BurgerCard 대신 Burger로 변경
+  final Burger burger;
   final bool isFavorite;
   final VoidCallback onFavoritePressed;
+  final VoidCallback onDeletePressed; // 삭제 콜백 추가
 
   BurgerCard({
-    required this.burger, // 수정: burgerCard 대신 burger로 변경
+    required this.burger,
     required this.isFavorite,
     required this.onFavoritePressed,
+    required this.onDeletePressed, // 삭제 콜백 추가
   });
 
   @override
@@ -24,7 +26,7 @@ class BurgerCard extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(5.0),
             child: Image.network(
-              burger.imageUrl, // 수정: burgerCard 대신 burger로 변경
+              burger.imageUrl,
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) {
                 return Center(child: Text('이미지를 불러올 수 없습니다.'));
@@ -32,8 +34,8 @@ class BurgerCard extends StatelessWidget {
             ),
           ),
         ),
-        title: Text(burger.name), // 수정: burgerCard 대신 burger로 변경
-        subtitle: Text(burger.description), // 수정: burgerCard 대신 burger로 변경
+        title: Text(burger.name),
+        subtitle: Text(burger.description),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -50,10 +52,14 @@ class BurgerCard extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => BurgerDetailPage(burger: burger), // 수정: burgerCard 대신 burger로 변경
+                    builder: (context) => BurgerDetailPage(burger: burger),
                   ),
                 );
               },
+            ),
+            IconButton(
+              icon: Icon(Icons.cancel_outlined),
+              onPressed: onDeletePressed, // 삭제 콜백 호출
             ),
           ],
         ),
